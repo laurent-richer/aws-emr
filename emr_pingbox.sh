@@ -9,12 +9,13 @@ FREQ=1
 
 FILE=/tmp/emr_pingbox.sh
 INSTANCE_ID=`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id`
+TIMESTAMP=$(date +%s)
 
 echo "#!/bin/bash">$FILE
 echo "while true;">>$FILE
 echo "do">>$FILE
 echo "  AVG_PING=\`ping -c 1 $IP_ADDRESS  | awk -F\/ '/rtt/ {print \$5}'\`">>$FILE
-echo "  aws cloudwatch put-metric-data --metric-name ping --namespace EMR --unit Milliseconds --value \"\$AVG_PING\" --dimensions InstanceId=$INSTANCE_ID --storage-resolution 1 --region $REGION">>$FILE
+echo "  aws cloudwatch put-metric-data --metric-name ping --namespace EMR --unit Milliseconds --value \"\$AVG_PING\" --dimensions InstanceId=$INSTANCE_ID,timestamp=$TIMESTAMP --storage-resolution 1 --region $REGION">>$FILE
 echo "  sleep $FREQ">>$FILE
 echo "done">>$FILE
 
