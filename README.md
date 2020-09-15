@@ -1,3 +1,3 @@
 # aws-scripts
-emr_pingbox.sh
-Script that can help investigate emr latency issue
+**emr_pingbox.sh**
+*Script that can help to investigate emr latency issue
